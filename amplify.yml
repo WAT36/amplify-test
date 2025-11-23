@@ -1,36 +1,27 @@
 version: 1
-monorepo:
-  applications:
-    # ==== Frontend: Next.js (frontend/) ====
-    - appRoot: frontend
-      frontend:
-        phases:
-          preBuild:
-            commands:
-              - npm ci
-          build:
-            commands:
-              - npm run build
-        artifacts:
-          baseDirectory: .next
-          files:
-            - "**/*"
-        cache:
-          paths:
-            - node_modules/**/*
-            - .next/cache/**/*
-    # ==== Backend: Amplify Gen2 Backend (repo root) ====
-    - appRoot: .
-      backend:
-        phases:
-          preBuild:
-            commands:
-              - npm ci
-          build:
-            commands:
-              - npx ampx generate outputs \
-                --branch $AWS_BRANCH \
-                --app-id $AWS_APP_ID
-        cache:
-          paths:
-            - node_modules/**/*
+backend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        - npx ampx generate outputs \
+          --branch $AWS_BRANCH \
+          --app-id $AWS_APP_ID
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - cd frontend
+        - npm ci
+    build:
+      commands:
+        - npm run build
+  artifacts:
+    baseDirectory: frontend/.next
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - frontend/node_modules/**/*
