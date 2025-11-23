@@ -1,0 +1,29 @@
+version: 1
+backend:
+  phases:
+    preBuild:
+      commands:
+        - cd amplify
+        - npm install
+    build:
+      commands:
+        - cd amplify
+        - npx ampx generate outputs --branch $AWS_BRANCH --app-id $AWS_APP_ID --out-dir ../frontend
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - cd frontend
+        - npm ci
+    build:
+      commands:
+        - cd frontend
+        - npm run build
+  artifacts:
+    baseDirectory: frontend/.next
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - frontend/node_modules/**/*
+      - amplify/node_modules/**/*
