@@ -3,6 +3,7 @@ backend:
   phases:
     preBuild:
       commands:
+        - npm install
         - cd amplify
         - npm install
     build:
@@ -12,6 +13,7 @@ frontend:
   phases:
     preBuild:
       commands:
+        - npm install
         - cd frontend
         - npm ci
     build:
