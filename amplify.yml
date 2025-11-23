@@ -3,10 +3,14 @@ backend:
   phases:
     preBuild:
       commands:
+        - pwd
+        - ls -la
         - cd amplify
         - npm install
     build:
       commands:
+        - pwd
+        - ls -la
         - cd amplify
         - npx ampx generate outputs --branch $AWS_BRANCH --app-id $AWS_APP_ID --out-dir ../frontend
 frontend:
